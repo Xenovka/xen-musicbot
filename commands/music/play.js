@@ -18,7 +18,7 @@ module.exports = class Play extends commando.Command {
     distube = new DisTube(client, { leaveOnEmpty: true });
   }
 
-  async run(message, args) {
+  run(message, args) {
     const { channel, member } = message;
 
     if (!member.voice.channel) {
