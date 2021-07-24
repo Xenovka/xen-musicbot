@@ -70,7 +70,7 @@ client.distube
     const embeds = new Discord.MessageEmbed()
       .setColor("BLUE")
       .setDescription(
-        `**Playing** ${song.name} • **Requested** by [${song.user}]`
+        `**Playing** [${song.name}](${song.url}) • **Requested** by [${song.user}]`
       );
 
     queue.textChannel.send(embeds);
@@ -81,7 +81,7 @@ client.distube
     const embeds = new Discord.MessageEmbed()
       .setColor("BLUE")
       .setDescription(
-        `**Adding** ${song.name} **to Queue** • **Requested** by [${song.user}]`
+        `**Adding** [${song.name}](${song.url}) **to Queue** • **Requested** by [${song.user}]`
       );
 
     queue.textChannel.send(embeds);
