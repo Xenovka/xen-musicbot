@@ -2,6 +2,7 @@ const fs = require("fs");
 const Discord = require("discord.js");
 const { DisTube } = require("distube");
 const client = new Discord.Client().setMaxListeners(0);
+require("discord-buttons")(client);
 require("dotenv").config();
 
 client.on("ready", async () => {
