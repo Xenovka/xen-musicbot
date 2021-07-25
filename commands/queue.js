@@ -27,8 +27,8 @@ module.exports = {
       return;
     }
 
-    const totalPages = Math.ceil(queue.songs.length / 5);
-    const limit = 5;
+    const limit = 10;
+    const totalPages = Math.ceil(queue.songs.length / limit);
 
     if (totalPages <= 1) {
       queue.songs.forEach((song, idx) => {
