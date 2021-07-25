@@ -1,7 +1,7 @@
 module.exports = {
   name: "clear",
   inVoiceChannel: true,
-  run: async (client, message) => {
+  run: (client, message) => {
     const { channel, guild } = message;
 
     const queue = client.distube.getQueue(guild.id);
@@ -12,7 +12,5 @@ module.exports = {
     }
 
     queue.delete();
-    queue.textChannel.send("Queue deleted. Bye-byee. . . .");
-    queue.voice.leave();
   }
 };
