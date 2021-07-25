@@ -27,8 +27,8 @@ module.exports = {
       return;
     }
 
-    const totalPages = Math.ceil(queue.songs.length / 10);
-    const limit = 10;
+    const totalPages = Math.ceil(queue.songs.length / 5);
+    const limit = 5;
 
     if (totalPages <= 1) {
       queue.songs.forEach((song, idx) => {
@@ -39,52 +39,65 @@ module.exports = {
     }
 
     let currentPage = 1;
-    const pagination = currentPage * limit - limit;
+    let pagination = currentPage * limit - limit;
 
-    for (let i = pagination; i < currentPage * limit; i++) {
-      const song = queue.songs[i];
-      const songName = song.name.replace(/\'/g, "");
-      queueMessage += `\n${i + 1}) ${songName} ${song.formattedDuration}`;
-    }
-
-    channel.send(`${queueMessage} \`\`\``, buttonNext);
+    channel.send(
+      showQueueMessage(queue, pagination, currentPage, limit),
+      buttonNext
+    );
 
     client.on("clickButton", async (button) => {
       if (button.id === "button_prev") {
         await button.reply.defer();
         currentPage--;
-
-        for (let i = pagination; i < currentPage * limit; i++) {
-          const song = queue.songs[i];
-          const songName = song.name.replace(/\'/g, "");
-          queueMessage += `\n${i + 1}) ${songName} ${song.formattedDuration}`;
-        }
+        pagination = currentPage * limit - limit;
 
         if (currentPage === 1) {
-          channel.send(`${queueMessage} \`\`\``, buttonNext);
+          button.message.edit(
+            showQueueMessage(queue, pagination, currentPage, limit),
+            buttonNext
+          );
           return;
         }
 
-        channel.send(`${queueMessage} \`\`\``, buttons);
+        button.message.edit(
+          showQueueMessage(queue, pagination, currentPage, limit),
+          buttons
+        );
       }
 
       if (button.id === "button_next") {
         await button.reply.defer();
         currentPage++;
-
-        for (let i = pagination; i < currentPage * limit; i++) {
-          const song = queue.songs[i];
-          const songName = song.name.replace(/\'/g, "");
-          queueMessage += `\n${i + 1}) ${songName} ${song.formattedDuration}`;
-        }
+        pagination = currentPage * limit - limit;
 
         if (currentPage === totalPages) {
-          channel.send(`${queueMessage} \`\`\``, buttonPrev);
+          button.message.edit(
+            showQueueMessage(queue, pagination, currentPage, limit),
+            buttonPrev
+          );
           return;
         }
 
-        channel.send(`${queueMessage} \`\`\``, buttons);
+        button.message.edit(
+          showQueueMessage(queue, pagination, currentPage, limit),
+          buttons
+        );
       }
     });
   }
+};
+
+const showQueueMessage = (queue, pagination, currentPage, limit) => {
+  queueMessage = "```elm";
+  for (let i = pagination; i < currentPage * limit; i++) {
+    const song = queue.songs[i];
+
+    if (!song) break;
+
+    const songName = song.name.replace(/\'/g, "");
+    queueMessage += `\n${i + 1}) ${songName} ${song.formattedDuration}`;
+  }
+
+  return queueMessage + "```";
 };
