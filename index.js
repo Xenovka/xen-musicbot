@@ -92,17 +92,4 @@ client.distube
   })
   .on("empty", (queue) => {
     queue.textChannel.send("Why you left me alone ?! ");
-  })
-  .on("disconnect", (queue) => {
-    queue.delete();
-    queue.textChannel.send("Byee-byee. . . .");
-  })
-  .on("deleteQueue", (queue) => {
-    queue.textChannel.send(
-      "Queue has been deleted and now it's Empty. Byeee. . ."
-    );
-
-    setTimeout(() => {
-      queue.voice.leave();
-    }, 1000);
   });

@@ -6,6 +6,7 @@ module.exports = {
     const { channel, guild } = message;
 
     const voice = client.distube.voices.get(guild.id);
+    const queue = client.distube.getQueue(guild.id);
 
     if (!voice) {
       channel.send("I'm not in the voice channel, LMAO 🤪");
@@ -13,6 +14,7 @@ module.exports = {
     }
 
     voice.leave();
-    channel.send("Byee-byee. . . .");
+    queue.delete();
+    queue.textChannel.send("Byee-byee. . . .");
   }
 };

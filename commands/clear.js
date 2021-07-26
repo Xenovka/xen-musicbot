@@ -12,5 +12,12 @@ module.exports = {
     }
 
     queue.delete();
+    queue.textChannel.send(
+      "Queue has been deleted and now it's Empty. Byeee. . ."
+    );
+
+    setTimeout(() => {
+      queue.voice.leave();
+    }, 1000);
   }
 };
