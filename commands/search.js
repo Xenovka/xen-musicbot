@@ -46,9 +46,9 @@ module.exports = {
       try {
         await menu.reply.defer();
         await client.distube.play(message, menu.values[0]);
-        menu.message.delete();
+        await menu.message.delete();
       } catch (err) {
-        channel.send("An error occured while trying to use the command.");
+        if (err) return;
       }
     });
   }
