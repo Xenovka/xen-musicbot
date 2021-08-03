@@ -2,19 +2,25 @@ module.exports = {
   name: "leave",
   aliases: ["dc", "bye"],
   inVoiceChannel: true,
-  run: (client, message) => {
+  run: async (client, message) => {
     const { channel, guild } = message;
 
     const voice = client.distube.voices.get(guild.id);
     const queue = client.distube.getQueue(guild.id);
 
     if (!voice) {
-      channel.send("I'm not in the voice channel, LMAO 🤪");
+      channel.send("I'm not in the voice channel");
       return;
     }
 
     voice.leave();
-    queue.delete();
-    queue.textChannel.send("Byee-byee. . . .");
+    if (!queue) {
+      channel.send("Byee-byee. . . .");
+      return;
+    } else {
+      queue.delete();
+      channel.send("Byee-byee. . . .");
+      return;
+    }
   }
 };
