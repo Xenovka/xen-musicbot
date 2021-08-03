@@ -48,6 +48,11 @@ module.exports = {
     const result = getSong[0];
     const getLyrics = await lyricsSearcher(result.artist.name, result.title);
 
+    if (!getLyrics) {
+      channel.send("Lyrics not found!");
+      return;
+    }
+
     const embeds = new MessageEmbed()
       .setColor("BLUE")
       .setAuthor(result.title)
