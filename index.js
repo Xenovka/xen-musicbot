@@ -66,7 +66,12 @@ client.on("message", async (message) => {
   }
 });
 
+let msgId;
+
 client.distube
+  .on("finishSong", async (queue, song) => {
+    await queue.textChannel.messages.delete(msgId);
+  })
   .on("playSong", (queue, song) => {
     const embeds = new Discord.MessageEmbed()
       .setColor("BLUE")
@@ -74,7 +79,10 @@ client.distube
         `**Playing** [${song.name}](${song.url}) • **Requested** by [${song.user}]`
       );
 
-    queue.textChannel.send(embeds);
+    queue.textChannel
+      .send(embeds)
+      .then((msg) => (msgId = msg.id))
+      .catch((err) => console.log(err));
   })
   .on("addSong", (queue, song) => {
     if (queue.songs.length === 1) return;
